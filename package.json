@@ -10,6 +10,7 @@
     "lint:fix": "eslint src/ --fix",
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
     "sonar": "sonar-scanner"
   },
   "dependencies": {
@@ -37,6 +38,10 @@
         "statements": 70
       }
     },
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true,
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ]
   }
 }
