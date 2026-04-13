@@ -1,0 +1,17 @@
+{
+  "name": "smart-maintenance-spaghetti",
+  "version": "1.0.0",
+  "description": "Code spaghetti pour le TP Qualimétrie",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint .",
+    "test": "echo \"Pas de tests à l'étape 1\" && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
