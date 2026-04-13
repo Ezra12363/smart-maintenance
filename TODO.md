@@ -12,7 +12,7 @@
 - [ ] 5. Pipeline CI échoue (complexité >15, coverage 0%)
 
 ### Étape 4: Refactoring + Tests
-- [ ] 6. Ajouter Jest + sonarqube-scanner
+- [x] 6. Ajouter Jest + supertest + config
 - [ ] 7. Refactor repairController.js (extraire fonctions, nesting <3)
 - [ ] 8. Écrire tests Jest (70% coverage)
 - [ ] 9. Quality Gate PASS

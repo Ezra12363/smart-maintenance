@@ -3,15 +3,20 @@
   "version": "1.0.0",
   "description": "Code spaghetti pour le TP Qualimétrie",
   "main": "app.js",
-  "scripts": {
+"scripts": {
     "start": "node app.js",
     "lint": "eslint .",
-    "test": "echo \"Pas de tests à l'étape 1\" && exit 0"
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "eslint": "^8.56.0"
+    "@types/jest": "^30.0.0",
+    "eslint": "^8.56.0",
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
   }
 }
