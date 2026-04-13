@@ -1,4 +1,4 @@
-name: SonarCloud Quality Gate
+name: CI Quality Pipeline
 on:
   push:
     branches: [ main ]
