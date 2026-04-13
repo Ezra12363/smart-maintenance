@@ -65,9 +65,4 @@ function calculateEstimate(req, res) {
   }
 }
 
-module.exports = { 
-  calculateEstimate, 
-  calculateLaborCost, 
-  calculatePartsCost, 
-  buildFinalMessage 
-};
+module.exports = { calculateEstimate };

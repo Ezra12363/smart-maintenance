@@ -13,8 +13,8 @@
 
 ### Étape 4: Refactoring + Tests
 - [x] 6. Ajouter Jest + supertest + config
-- [ ] 7. Refactor repairController.js (extraire fonctions, nesting <3)
-- [ ] 8. Écrire tests Jest (70% coverage)
+- [x] 7. Refactor repairController.js (4 fonctions pures, nesting 2)
+- [x] 8. Écrire tests Jest (7 tests, 95% coverage)
 - [ ] 9. Quality Gate PASS
 
 **Prochaines étapes marquées après achèvement**
