@@ -3,10 +3,10 @@
 ### Étape 1: Code Spaghetti ✅ (fait)
 
 ### Étape 2: Git + GitHub + SonarCloud
-- [ ] 1. git init + .gitignore + initial commit "Étape 1 spaghetti"
-- [ ] 2. Créer repo GitHub public "smart-maintenance" + push
-- [ ] 3. Configurer SonarCloud (project key, token)
-- [ ] 4. sonar-project.properties + workflow Actions
+- [x] 1. git init + .gitignore + initial commit "Étape 1 spaghetti"
+- [x] 2. Créer repo GitHub public "smart-maintenance" + push
+- [ ] 3. Configurer SonarCloud : Ajouter SONAR_TOKEN secret GitHub + SonarCloud project bind
+- [x] 4. sonar-project.properties + workflow Actions sonar.yml
 
 ### Étape 3: Quality Gate FAIL
 - [ ] 5. Pipeline CI échoue (complexité >15, coverage 0%)
