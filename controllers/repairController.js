@@ -52,7 +52,7 @@ function calculateEstimate(req, res) {
     const totalEstimate = labor.laborCost + partsCost;
     const message = buildFinalMessage(labor, partsCost, totalEstimate);
 
-    res.json({
+    return res.json({
       estimate: totalEstimate,
       details: {
         laborCost: labor.laborCost,
@@ -61,9 +61,10 @@ function calculateEstimate(req, res) {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: "Erreur interne du serveur" });
+    return res.status(500).json({ error: "Erreur interne du serveur" });
   }
 }
+
 
 module.exports = { 
   calculateEstimate, 

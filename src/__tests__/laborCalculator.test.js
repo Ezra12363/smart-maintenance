@@ -31,7 +31,13 @@ describe('Labor Calculator', () => {
         });
     });
 
-    describe('Cas limites', () => {
+describe('Cas limites', () => {
+        test('devrait gérer problemType manquant', () => {
+            const result = calculateLaborCost(null, 3, false);
+            expect(result.cost).toBe(0);
+            expect(result.details.error).toBe('problemType required');
+        });
+
         test('devrait gérer heures non spécifiées pour non-moteur', () => {
             const result = calculateLaborCost('Freins', null, false);
             expect(result.cost).toBe(0);
@@ -45,3 +51,4 @@ describe('Labor Calculator', () => {
         });
     });
 });
+

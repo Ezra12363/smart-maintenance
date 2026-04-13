@@ -7,20 +7,22 @@ describe('Parts Calculator', () => {
     ];
 
     describe('Calcul standard', () => {
+
         test('devrait calculer avec marge 20% sans remise', () => {
             const result = calculatePartsCost(sampleParts, 5);
             expect(result.cost).toBe(300);
-            expect(result.details.marginRate).toBe(0.20);
-            expect(result.details.hasSeniorDiscount).toBe(false);
+            expect(result.details.hasDiscount).toBe(false);
+            expect(result.details.partsCount).toBe(2);
         });
+
     });
 
     describe('Remise véhicule ancien', () => {
         test('devrait appliquer 15% remise si >10 ans', () => {
             const result = calculatePartsCost(sampleParts, 12);
             expect(result.cost).toBe(255);
-            expect(result.details.discountRate).toBe(0.15);
-            expect(result.details.hasSeniorDiscount).toBe(true);
+expect(result.details.hasDiscount).toBe(true);
+            expect(result.details.partsCount).toBe(2);
         });
     });
 

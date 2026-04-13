@@ -1,32 +1,43 @@
 /**
  * Calcule le coût de main-d'œuvre
- * @param {string} problemType - Type de problème ('Moteur' ou autre)
- * @param {number} hoursWorked - Heures travaillées
- * @param {boolean} isUrgent - Option urgente
- * @returns {Object} { cost, details }
  */
 function calculateLaborCost(problemType, hoursWorked, isUrgent) {
-    const baseRate = isUrgent ? 75 : 50;
-    let effectiveHours = hoursWorked || 0;
-    let appliedRule = 'Tarif horaire normal';
+  if (!problemType) return { cost: 0, details: { error: 'problemType required' } };
+  
+  const baseRate = isUrgent ? 75 : 50;
+  let effectiveHours = hoursWorked || 0;
+  let appliedRule = 'Tarif horaire normal';
 
-    // Règle forfait moteur (5h minimum)
-    if (problemType === 'Moteur' && (!hoursWorked || hoursWorked < 5)) {
-        effectiveHours = 5;
-        appliedRule = 'Forfait moteur (5h minimum)';
-    }
-
-    const cost = effectiveHours * baseRate;
-
+  // Early return pour cas simple
+  if (problemType !== 'Moteur') {
     return {
-        cost,
-        details: {
-            hours: effectiveHours,
-            hourlyRate: baseRate,
-            appliedRule,
-            originalHours: hoursWorked || null
-        }
+      cost: effectiveHours * baseRate,
+      details: {
+        hours: effectiveHours,
+        hourlyRate: baseRate,
+        appliedRule,
+        originalHours: hoursWorked || null
+      }
     };
+  }
+
+  // Cas Moteur - forfait
+  if (!hoursWorked || hoursWorked < 5) {
+    effectiveHours = 5;
+    appliedRule = 'Forfait moteur (5h minimum)';
+  }
+
+  const cost = effectiveHours * baseRate;
+
+  return {
+    cost,
+    details: {
+      hours: effectiveHours,
+      hourlyRate: baseRate,
+      appliedRule,
+      originalHours: hoursWorked || null
+    }
+  };
 }
 
 module.exports = { calculateLaborCost };

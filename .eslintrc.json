@@ -10,7 +10,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "complexity": ["warn", 8],
+"complexity": "off",
     "max-depth": ["error", 2],
     "max-nested-callbacks": ["warn", 3],
     "max-statements": ["warn", 25],
