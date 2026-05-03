@@ -1,22 +1,30 @@
 const request = require('supertest');
-const app = require('../../server');
+const express = require('express');
+const { calculateEstimate } = require('../../src/controllers/repairController');
 
 describe('API Integration - Repair Estimate', () => {
+  let app;
   let consoleLogSpy;
 
   beforeAll(() => {
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
-  afterAll(() => {
-    consoleLogSpy.mockRestore();
+  beforeEach(() => {
+    app = express();
+    app.use(express.json());
+    
+    app.post('/api/repair-estimate', (req, res) => {
+      calculateEstimate(req, res);
+    });
   });
 
-  afterEach(async () => {
-    // Graceful server close if needed
-    if (global.server) {
-      await global.server.close();
-    }
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    consoleLogSpy.mockRestore();
   });
 
   test('should return valid estimate for complete request', async () => {
@@ -36,9 +44,11 @@ describe('API Integration - Repair Estimate', () => {
   });
 
   test('should return 400 for missing problemType', async () => {
-    await request(app)
+    const response = await request(app)
       .post('/api/repair-estimate')
       .send({})
       .expect(400);
+
+    expect(response.body.error).toBeDefined();
   });
 });

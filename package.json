@@ -33,16 +33,14 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
       }
     },
     "testEnvironment": "node",
     "verbose": true,
-    "testMatch": [
-      "**/__tests__/**/*.test.js"
-    ]
+    "testMatch": ["**/__tests__/**/*.test.js"]
   }
 }
