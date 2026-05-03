@@ -16,12 +16,12 @@ GET /
 Response :
 ```
 {
-  "message": "SmartMaintenance API Qualimétrie ✅",
-  "endpoints": {
-    "POST /api/repair-estimate": "Calcul devis réparation"
+  \"message\": \"SmartMaintenance API Qualimétrie ✅\",
+  \"endpoints\": {
+    \"POST /api/repair-estimate\": \"Calcul devis réparation\"
   },
-  "version": "2.0.0",
-  "status": "Production ready - Coverage 87%, Complexity 3"
+  \"version\": \"2.0.0\",
+  \"status\": \"Production ready - Coverage 87%, Complexity 3\"
 }
 ```
 
@@ -33,25 +33,25 @@ Content-Type: application/json
 Body exemple :
 ```
 {
-  "problemType": "Moteur",
-  "hoursWorked": 3,
-  "partsReplaced": [
-    {"name": "Piston", "price": 200},
-    {"name": "Joint", "price": 50}
+  \"problemType\": \"Moteur\",
+  \"hoursWorked\": 3,
+  \"partsReplaced\": [
+    {\"name\": \"Piston\", \"price\": 200},
+    {\"name\": \"Joint\", \"price\": 50}
   ],
-  "isUrgent": true,
-  "vehicleAge": 12
+  \"isUrgent\": true,
+  \"vehicleAge\": 12
 }
 ```
 **Response attendue :**
 ```
 {
-  "estimate": 885,
-  "details": {
-    "laborCost": 375,
-    "partsCost": 510,
-    "laborDetails": {...},
-    "partsDetails": {...}
+  \"estimate\": 885,
+  \"details\": {
+    \"laborCost\": 375,
+    \"partsCost\": 510,
+    \"laborDetails\": {...},
+    \"partsDetails\": {...}
   }
 }
 ```
