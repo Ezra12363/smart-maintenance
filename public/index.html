@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <title>SmartMaintenance - Interface Devis Garage</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 { color: #333; text-align: center; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        input:focus, select:focus { outline: none; border-color: #667eea; }
+        .parts-container { margin-top: 1rem; }
+        .part-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .part-row input { flex: 1; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        #result { margin-top: 2rem; padding: 1.5rem; background: #f8f9ff; border-radius: 10px; display: none; }
+        .error { border-color: #e74c3c !important; }
+        .loading { display: none; text-align: center; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 SmartMaintenance</h1>
+        <form id="estimateForm">
+            <div class="form-group">
+                <label>Type de problème :</label>
+                <select id="problemType" required>
+                    <option value="">Choisir...</option>
+                    <option value="Moteur">Moteur</option>
+                    <option value="Freinage">Freinage</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="Électricité">Électricité</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Heures de travail :</label>
+                <input type="number" id="hoursWorked" min="0" step="0.5" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Âge du véhicule (années) :</label>
+                <input type="number" id="vehicleAge" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Urgent ?</label>
+                <input type="checkbox" id="isUrgent">
+            </div>
+            
+            <div class="form-group">
+                <label>Pièces remplacées :</label>
+                <div class="parts-container" id="partsContainer">
+                    <div class="part-row">
+                        <input type="text" placeholder="Nom pièce" class="part-name">
+                        <input type="number" placeholder="Prix €" class="part-price" min="0">
+                        <button type="button" onclick="removePart(this)">❌</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addPart()">+ Ajouter pièce</button>
+            </div>
+            
+            <button type="submit">📊 Calculer Devis</button>
+        </form>
+        
+        <div class="loading" id="loading">Calcul en cours...</div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let partCounter = 1;
+        
+        function addPart() {
+            const container = document.getElementById('partsContainer');
+            const row = document.createElement('div');
+            row.className = 'part-row';
+            row.innerHTML = `
+                <input type="text" placeholder="Nom pièce" class="part-name">
+                <input type="number" placeholder="Prix €" class="part-price" min="0">
+                <button type="button" onclick="removePart(this)">❌</button>
+            `;
+            container.appendChild(row);
+            partCounter++;
+        }
+        
+        function removePart(button) {
+            button.parentElement.remove();
+        }
+        
+        document.getElementById('estimateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                problemType: document.getElementById('problemType').value,
+                hoursWorked: parseFloat(document.getElementById('hoursWorked').value),
+                vehicleAge: parseInt(document.getElementById('vehicleAge').value),
+                isUrgent: document.getElementById('isUrgent').checked,
+                partsReplaced: []
+            };
+            
+            // Collect parts
+            document.querySelectorAll('.part-row').forEach(row => {
+                const name = row.querySelector('.part-name').value.trim();
+                const price = parseFloat(row.querySelector('.part-price').value);
+                if (name && price > 0) {
+                    formData.partsReplaced.push({ name, price });
+                }
+            });
+            
+            if (formData.partsReplaced.length === 0) {
+                alert('Ajoutez au moins une pièce !');
+                return;
+            }
+            
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const submitBtn = document.querySelector('button[type="submit"]');
+            
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/repair-estimate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                result.innerHTML = `
+                    <h3>✅ Devis calculé !</h3>
+                    <p><strong>Total :</strong> ${data.estimate.toFixed(2)} €</p>
+                    <p><strong>Main d'œuvre :</strong> ${data.details.laborCost.toFixed(2)} €</p>
+                    <p><strong>Pièces :</strong> ${data.details.partsCost.toFixed(2)} €</p>
+                    <details>
+                        <summary>Détails complets</summary>
+                        <pre>${JSON.stringify(data.details, null, 2)}</pre>
+                    </details>
+                `;
+                result.style.display = 'block';
+            } catch (error) {
+                result.innerHTML = `<p style="color: #e74c3c;">❌ Erreur : ${error.message}</p>`;
+                result.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
