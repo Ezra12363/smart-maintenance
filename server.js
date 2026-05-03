@@ -45,11 +45,14 @@ app.get('/', (req, res) => {
 
 app.use('/api', repairRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Serveur SmartMaintenance démarré sur http://localhost:${PORT}`);
-  console.log('Swagger: http://localhost:3000/api-docs');
-  console.log('Endpoints: GET / , POST /api/repair-estimate');
-});
+// Listen only if run directly (not required as module)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Serveur SmartMaintenance démarré sur http://localhost:${PORT}`);
+    console.log('Swagger: http://localhost:3000/api-docs');
+    console.log('Endpoints: GET / , POST /api/repair-estimate');
+  });
+}
 
 module.exports = { app };
 
