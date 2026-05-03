@@ -1,9 +1,11 @@
 name: CI Quality Pipeline
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   sonarcloud:
@@ -35,3 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=Ezra12363_smart-maintenance
+            -Dsonar.organization=ezra12363
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
