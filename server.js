@@ -51,4 +51,4 @@ app.listen(PORT, () => {
   console.log('Endpoints: GET / , POST /api/repair-estimate');
 });
 
-module.exports = app;
+module.exports = { app };\n

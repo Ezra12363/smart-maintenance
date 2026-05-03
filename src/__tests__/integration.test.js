@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../../server');
+const { app } = require('../../server.js');
 
 describe('API Integration - Repair Estimate', () => {
   test('should return valid estimate for complete request', async () => {
